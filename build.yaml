@@ -1,0 +1,18 @@
+apiVersion: shipwright.io/v1alpha1
+kind: Build
+metadata:
+  name: kaniko-build
+spec:
+  source:
+    url: https://github.com/imjasonh/shipwright-cosign-example
+  strategy:
+    kind: ClusterBuildStrategy
+    name: kaniko
+  output:
+    image: index.docker.io/imjasonh/signed
+    credentials:
+      name: dockerhub-dockerconfig
+  sign:
+    keyPath: cosign.key
+    passphrase:
+      name: passphrase
