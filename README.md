@@ -12,8 +12,8 @@ kubectl apply -f https://raw.githubusercontent.com/shipwright-io/build/master/sa
 ```
 
 2. Set up auth:
-    - the `build-bot` ServiceAccount
-    - and `passphrase` Secret
+    - the [`build-bot` ServiceAccount](./sa.yaml)
+    - and [`passphrase` Secret](./secret.yaml)
     - and registry secret to authorize image pushes
 
 ```
@@ -24,19 +24,24 @@ kubectl create secret generic dockerhub-dockerconfig \
   --type=kubernetes.io/dockerconfigjson
 ```
 
-3. Define the Build:
+3. Define [the Build](./build.yaml):
+
+This Build clones this repo, builds it using it [Kaniko](https://github.com/GoogleContainerTools/kaniko), and pushes it to DockerHub.
 
 ```
 kubectl apply -f https://raw.githubusercontent.com/ImJasonH/shipwright-cosign-example/main/build.yaml
 ```
 
-...then edit it to push to your Dockerhub user:
+By default, it's configured to push to my DockerHub user.
+Unless you're me, this won't work.
+
+You'll want to edit the Build:
 
 ```
 kubectl edit build kaniko-build
 ```
 
-...and modify the `image`:
+...and modify the `image` section to push to your user:
 
 ```
   output:
@@ -47,8 +52,8 @@ kubectl edit build kaniko-build
 
 ---
 
-Up until this point, everything is the standard process for installing, setting up, and using Shipwright.
-This Build, however, includes a new `.spec.sign` field, which describes how to sign the built image:
+Up until this point, everything is the fairly standard process for installing, setting up, and using Shipwright.
+[This Build](./build.yaml), however, includes a new `.spec.sign` section, which describes how to sign the built image:
 
 ```
 sign:
