@@ -19,7 +19,7 @@ kubectl apply -f https://raw.githubusercontent.com/shipwright-io/build/master/sa
 kubectl apply -f https://raw.githubusercontent.com/ImJasonH/shipwright-cosign-example/main/sa.yaml
 kubectl apply -f https://raw.githubusercontent.com/ImJasonH/shipwright-cosign-example/main/secret.yaml
 kubectl create secret generic dockerhub-dockerconfig \
-  --from-file=.dockerconfigjson=~/.docker/config.json \
+  --from-file=.dockerconfigjson=$HOME/.docker/config.json \
   --type=kubernetes.io/dockerconfigjson
 ```
 
@@ -46,7 +46,8 @@ kubectl edit build kaniko-build
 
 ---
 
-Up until this point, everything is the standard process for installing, setting up, and using Shipwright. This Build includes a new `.spec.sign` field, which describes how to sign the built image:
+Up until this point, everything is the standard process for installing, setting up, and using Shipwright.
+This Build, however, includes a new `.spec.sign` field, which describes how to sign the built image:
 
 ```
 sign:
@@ -55,7 +56,8 @@ sign:
     name: passphrase
 ```
 
-This tells Shipwright to use the `cosign.key` found in the repo to sign the built image. That key is encrypted, and the Secret named `passphrase` includes the passphrase to decrypt it.
+This tells Shipwright to use the `cosign.key` found in the repo to sign the built image.
+That key is encrypted, and the Secret named `passphrase` includes the passphrase to decrypt it.
 
 4. Create a BuildRun to execute the Build
 
