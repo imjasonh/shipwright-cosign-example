@@ -3,9 +3,9 @@
 ### Install Shipwright and dependencies
 
 1. Install dependencies:
-  - latest Tekton release
-  - forked Shipwright with signing support, built from [this fork](https://github.com/imjasonh/build-1/tree/sign).
-  - the `kaniko` ClusterBuildStrategy
+    - latest Tekton release
+    - forked Shipwright with signing support, built from [this fork](https://github.com/imjasonh/build-1/tree/sign).
+    - the `kaniko` ClusterBuildStrategy
 
 ```
 kubectl apply -f https://storage.googleapis.com/tekton-releases/pipeline/latest/release.yaml
@@ -13,7 +13,10 @@ kubectl apply -f https://raw.githubusercontent.com/ImJasonH/shipwright-cosign-ex
 kubectl apply -f https://raw.githubusercontent.com/shipwright-io/build/master/samples/buildstrategy/kaniko/buildstrategy_kaniko_cr.yaml
 ```
 
-2. Create the `build-bot` ServiceAccount and passphrase Secret, and registry secret to authorize image pushes:
+2. Set up auth:
+    - the `build-bot` ServiceAccount
+    - and `passphrase` Secret
+    - and registry secret to authorize image pushes
 
 ```
 kubectl apply -f https://raw.githubusercontent.com/ImJasonH/shipwright-cosign-example/main/sa.yaml
@@ -23,7 +26,7 @@ kubectl create secret generic dockerhub-dockerconfig \
   --type=kubernetes.io/dockerconfigjson
 ```
 
-3. Define the Build
+3. Define the Build:
 
 ```
 kubectl apply -f https://raw.githubusercontent.com/ImJasonH/shipwright-cosign-example/main/build.yaml
@@ -59,7 +62,9 @@ sign:
 This tells Shipwright to use the `cosign.key` found in the repo to sign the built image.
 That key is encrypted, and the Secret named `passphrase` includes the passphrase to decrypt it.
 
-4. Create a BuildRun to execute the Build
+---
+
+4. Create a BuildRun to execute the Build:
 
 ```
 kubectl create -f https://raw.githubusercontent.com/ImJasonH/shipwright-cosign-example/main/buildrun.yaml
@@ -78,3 +83,4 @@ The following checks were performed on each of these signatures:
 ```
 
 :tada:
+
