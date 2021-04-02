@@ -1,7 +1,5 @@
 # Demo: Using [`cosign`](https://github.com/sigstore/cosign) natively in [Shipwright](https://shipwright.io)
 
-### Install Shipwright and dependencies
-
 1. Install dependencies:
     - latest Tekton release
     - forked Shipwright with signing support, built from [this fork](https://github.com/imjasonh/build-1/tree/sign).
@@ -59,8 +57,8 @@ sign:
     name: passphrase
 ```
 
-This tells Shipwright to use the `cosign.key` found in the repo to sign the built image.
-That key is encrypted, and the Secret named `passphrase` includes the passphrase to decrypt it.
+This tells Shipwright to use the [`cosign.key` in this repo](./cosign.key) to sign the built image.
+The key is encrypted, and the Secret named `passphrase` specifies the passphrase to decrypt it.
 
 ---
 
@@ -70,7 +68,7 @@ That key is encrypted, and the Secret named `passphrase` includes the passphrase
 kubectl create -f https://raw.githubusercontent.com/ImJasonH/shipwright-cosign-example/main/buildrun.yaml
 ```
 
-5. Finally, verify the image is signed:
+5. Finally, verify the image is signed, using [the public key](./cosign.pub):
 
 ```
 $ cosign verify -key cosign.pub imjasonh/signed # <-- your image here
