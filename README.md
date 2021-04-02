@@ -1,4 +1,4 @@
-# Demo: Using `cosign` natively in Shipwright
+# Demo: Using [`cosign`](https://github.com/sigstore/cosign) natively in [Shipwright](https://shipwright.io)
 
 ### Install Shipwright and dependencies
 
